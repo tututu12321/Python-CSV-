@@ -1,0 +1,42 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from google.colab import files
+
+# ファイルをアップロード
+uploaded = files.upload()
+
+# アップロードしたファイルの名前を取得
+file_path = list(uploaded.keys())[0]
+
+# CSVファイルの読み込み（ヘッダー行に#を含む行があればスキップ）
+data = pd.read_csv(file_path, comment='#', encoding='ISO-8859-1')
+
+# 周波数、振幅、位相のデータを取得
+frequency = data['Frequency (Hz)']
+magnitude = data['Channel 1 Magnitude (dB)']
+phase = data['Channel 1 Phase (deg)']
+
+# プロットの作成
+plt.figure(figsize=(12, 8))
+
+# Magnitude Plot
+plt.subplot(2, 1, 1)
+plt.plot(frequency, magnitude, label='Magnitude (dB)', color='b')
+plt.xscale('log')
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Magnitude (dB)')
+plt.title('Bode Plot - Magnitude')
+plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+
+# Phase Plot
+plt.subplot(2, 1, 2)
+plt.plot(frequency, phase, label='Phase (deg)', color='r')
+plt.xscale('log')
+plt.xlabel('Frequency (Hz)')
+plt.ylabel('Phase (deg)')
+plt.title('Bode Plot - Phase')
+plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+
+# プロットの表示
+plt.tight_layout()
+plt.show()
