@@ -1,0 +1,36 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from google.colab import files
+
+# 1. ファイルをアップロード
+uploaded = files.upload()
+
+# 2. アップロードしたファイルの名前を取得
+file_path = list(uploaded.keys())[0]
+
+# 3. コメント行をスキップしてデータを読み込む
+sin_data = pd.read_csv(file_path, comment='#', encoding='ISO-8859-1')
+
+# 4. 時間、チャンネル1、チャンネル2のデータを取得
+time = sin_data['Time (s)']
+channel_1 = sin_data['Channel 1 (V)']
+channel_2 = sin_data['Channel 2 (V)']
+
+# 5. プロットの作成
+plt.figure(figsize=(12, 6))
+
+# Channel 1のプロット
+plt.plot(time, channel_1, label='Channel 1 (V)', color='blue')
+
+# Channel 2のプロット
+plt.plot(time, channel_2, label='Channel 2 (V)', color='red')
+
+# グラフの設定
+plt.xlabel('Time (s)')
+plt.ylabel('Voltage (V)')
+plt.title('Oscilloscope Waveform')
+plt.legend()
+plt.grid(True)
+
+# プロットの表示
+plt.show()
